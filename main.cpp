@@ -3,7 +3,13 @@
 #define tab "\t"
 
 /*
-TODO:
+	TODO:
+	Вместо передачи массива в функцию по указателю, сделать передачу по ссылке.
+	void push_row_back(int**& Arr, int& m, const int n);
+*/
+
+/*
+DONE:
 0. Вывести двумерный динамический массив на экран, используя Арифметику указателей, и оператор разыменования;
 1. Написать функцию ??? push_row_back(???), которая добавляет пустую строку (заполненную нулями) в конец массива;
 2. Написать функцию ??? push_row_front(???), которая добавляет пустую строку в начало массива;
@@ -17,8 +23,8 @@ void FillRand(int** Arr, const int m, const int n);
 void Print(int** Arr, const int m, const int n);
 void Delete(int** Arr, const int m, const int n);
 
-int** PushRowBack(int** Arr, int& m, int& n);
-int** PushRowFront(int** Arr, int& m, int& n);
+void PushRowBack(int *** Arr, int& m, int& n);
+void PushRowFront(int *** Arr, int& m, int& n);
 int** InsertRow(int** Arr, int& m, int& n, long long int& index);
 
 int** PopRowBack(int** Arr, int& m, int& n);
@@ -78,7 +84,7 @@ void main()
 	// ДОБАВЛЕНИЕ ПУСТОЙ СТРОКИ В КОНЕЦ ДДМ
 	std::cout << std::endl;
 	std::cout << std::endl;
-	Arr = PushRowBack(Arr, m, n);
+	PushRowBack(&Arr, m, n);
 	Print(Arr, m, n);
 
 	for (int i = 0; i < 67; i++)
@@ -92,7 +98,7 @@ void main()
 	//ДОБАВЛЕНИЕ ПУСТОЙ СТРОКИ В НАЧАЛО ДДМ
 	std::cout << std::endl;
 	std::cout << std::endl;
-	Arr = PushRowFront(Arr, m, n);
+	PushRowFront(&Arr, m, n);
 	Print(Arr, m, n);
 
 	for (int i = 0; i < 70; i++)
@@ -304,31 +310,31 @@ void Delete(int** Arr, const int m, const int n)
 	delete[] Arr;
 }
 
-int** PushRowBack(int** Arr, int& m, int& n)
+void PushRowBack(int *** Arr, int& m, int& n)
 {
 	int** Buffer = new int*[m + 1];
 	for (int i = 0; i < m; i++)
 	{
-		Buffer[i] = Arr[i];
+		Buffer[i] = (*Arr)[i];
 	}
-	delete[] Arr;
-	Arr = Buffer;
-	Arr[m] = new int[n] {};
+	delete[] (*Arr);
+	*Arr = Buffer;
+	(*Arr)[m] = new int[n] {};
 	m++;
-	return Arr;
+	//return *Arr;
 }
-int** PushRowFront(int** Arr, int& m, int& n)
+void PushRowFront(int *** Arr, int& m, int& n)
 {
 	int** Buffer = new int*[m + 1];
 	for (int i = 0; i < m; i++)
 	{
-		Buffer[i + 1] = Arr[i];
+		Buffer[i + 1] = (*Arr)[i];
 	}
-	delete[] Arr;
-	Arr = Buffer;
-	Arr[0] = new int[n] {};
+	delete[] *Arr;
+	*Arr = Buffer;
+	(*Arr)[0] = new int[n] {};
 	m++;
-	return Arr;
+	//return *Arr;
 }
 int** InsertRow(int** Arr, int& m, int& n, long long int& index)
 {
