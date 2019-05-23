@@ -3,42 +3,34 @@
 #define tab "\t"
 
 /*
-	TODO:
-	Вместо передачи массива в функцию по указателю, сделать передачу по ссылке.
-	void push_row_back(int**& Arr, int& m, const int n);
+TODO:
+1. git clone https://github.com/okovtun/DynamicMemory2_34a
+2. Вместо передачи массива в функцию по указателю, сделать передачу по ссылке.
+void push_row_back(int**& Arr, int& m, const int n);
+
 */
 
-/*
-DONE:
-0. Вывести двумерный динамический массив на экран, используя Арифметику указателей, и оператор разыменования;
-1. Написать функцию ??? push_row_back(???), которая добавляет пустую строку (заполненную нулями) в конец массива;
-2. Написать функцию ??? push_row_front(???), которая добавляет пустую строку в начало массива;
-3. Написать функцию ??? insert_row(???), которая добавляет пустую строку в массив по указанному индексу;
-4. Написать функцию ??? pop_row_back(???), которая удаляет строку из конца массива;
-5. Написать функцию ??? pop_row_front(???), которая удаляет строку с начала массива;
-6. Написать функцию ??? erase_row(???), которая удаляет строку из массива, по указанному индексу;
-*/
 //ROWS
 void FillRand(int** Arr, const int m, const int n);
 void Print(int** Arr, const int m, const int n);
 void Delete(int** Arr, const int m, const int n);
 
-void PushRowBack(int *** Arr, int& m, int& n);
-void PushRowFront(int *** Arr, int& m, int& n);
-int** InsertRow(int** Arr, int& m, int& n, long long int& index);
+void PushRowBack(int **& Arr, int& m, int& n);
+void PushRowFront(int **& Arr, int& m, int& n);
+void InsertRow(int **& Arr, int& m, int& n, long long int& index);
 
-int** PopRowBack(int** Arr, int& m, int& n);
-int** PopRowFront(int** Arr, int& m, int& n);
-int** EraseRow(int** Arr, int& m, int& n, long long int& index);
+void PopRowBack(int **& Arr, int& m, int& n);
+void PopRowFront(int **& Arr, int& m, int& n);
+void EraseRow(int **& Arr, int& m, int& n, long long int& index);
 
 //COLS
-int** PushColBack(int** Arr, int& m, int& n);
-int** PushColFront(int** Arr, int& m, int& n);
-int** InsertCol(int** Arr, const int m, int& n, long long int& index);
+void PushColBack(int** Arr, int& m, int& n);
+void PushColFront(int** Arr, int& m, int& n);
+void InsertCol(int** Arr, const int m, int& n, long long int& index);
 
-int** PopColBack(int** Arr, const int m, int& n);
-int** PopColFront(int** Arr, const int m, int& n);
-int** EraseCol(int** Arr, const int m, int& n, long long int& index);
+void PopColBack(int** Arr, const int m, int& n);
+void PopColFront(int** Arr, const int m, int& n);
+void EraseCol(int** Arr, const int m, int& n, long long int& index);
 
 void main()
 {
@@ -84,7 +76,7 @@ void main()
 	// ДОБАВЛЕНИЕ ПУСТОЙ СТРОКИ В КОНЕЦ ДДМ
 	std::cout << std::endl;
 	std::cout << std::endl;
-	PushRowBack(&Arr, m, n);
+	PushRowBack(Arr, m, n);
 	Print(Arr, m, n);
 
 	for (int i = 0; i < 67; i++)
@@ -98,7 +90,7 @@ void main()
 	//ДОБАВЛЕНИЕ ПУСТОЙ СТРОКИ В НАЧАЛО ДДМ
 	std::cout << std::endl;
 	std::cout << std::endl;
-	PushRowFront(&Arr, m, n);
+	PushRowFront(Arr, m, n);
 	Print(Arr, m, n);
 
 	for (int i = 0; i < 70; i++)
@@ -113,7 +105,7 @@ void main()
 	std::cout << std::endl;
 	std::cout << std::endl;
 	long long int index;
-	Arr = InsertRow(Arr, m, n, index);
+	InsertRow(Arr, m, n, index);
 	Print(Arr, m, n);
 
 	for (int i = 0; i < 69; i++)
@@ -127,7 +119,7 @@ void main()
 	//УДАЛЕНИЕ ПОСЛЕДНЕЙ СТРОЧКИ В ДДМ
 	std::cout << std::endl;
 	std::cout << std::endl;
-	Arr = PopRowBack(Arr, m, n);
+	PopRowBack(Arr, m, n);
 	Print(Arr, m, n);
 
 	for (int i = 0; i < 68; i++)
@@ -141,7 +133,7 @@ void main()
 	//УДАЛЕНИЕ ПЕРВОЙ СТРОЧКИ В ДДМ
 	std::cout << std::endl;
 	std::cout << std::endl;
-	Arr = PopRowFront(Arr, m, n);
+	PopRowFront(Arr, m, n);
 	Print(Arr, m, n);
 
 	for (int i = 0; i < 71; i++)
@@ -155,7 +147,7 @@ void main()
 	//УДАЛЕНИЕ СТРОЧКИ ПО ИНДЕКСУ В ДДМ
 	std::cout << std::endl;
 	std::cout << std::endl;
-	Arr = EraseRow(Arr, m, n, index);
+	EraseRow(Arr, m, n, index);
 	Print(Arr, m, n);
 	for (int i = 0; i < 85; i++)
 	{
@@ -278,7 +270,7 @@ void main()
 
 	Delete(Arr, m, n);
 }
-//ROWS
+
 void FillRand(int** Arr, const int m, const int n)
 {
 	for (int i = 0; i < m; i++)
@@ -310,33 +302,34 @@ void Delete(int** Arr, const int m, const int n)
 	delete[] Arr;
 }
 
-void PushRowBack(int *** Arr, int& m, int& n)
+//ROWS
+void PushRowBack(int **& Arr, int& m, int& n)
 {
 	int** Buffer = new int*[m + 1];
 	for (int i = 0; i < m; i++)
 	{
-		Buffer[i] = (*Arr)[i];
+		Buffer[i] = Arr[i];
 	}
-	delete[] (*Arr);
-	*Arr = Buffer;
-	(*Arr)[m] = new int[n] {};
+	delete[] Arr;
+	Arr = Buffer;
+	Arr[m] = new int[n] {};
 	m++;
 	//return *Arr;
 }
-void PushRowFront(int *** Arr, int& m, int& n)
+void PushRowFront(int **& Arr, int& m, int& n)
 {
 	int** Buffer = new int*[m + 1];
 	for (int i = 0; i < m; i++)
 	{
-		Buffer[i + 1] = (*Arr)[i];
+		Buffer[i + 1] = Arr[i];
 	}
-	delete[] *Arr;
-	*Arr = Buffer;
-	(*Arr)[0] = new int[n] {};
+	delete[] Arr;
+	Arr = Buffer;
+	Arr[0] = new int[n] {};
 	m++;
 	//return *Arr;
 }
-int** InsertRow(int** Arr, int& m, int& n, long long int& index)
+void InsertRow(int **& Arr, int& m, int& n, long long int& index)
 {
 	std::cout << "Введите индекс: "; std::cin >> index;
 	if (index > m || index < 0)
@@ -359,10 +352,10 @@ int** InsertRow(int** Arr, int& m, int& n, long long int& index)
 	Arr[index] = new int [n] {};
 	m++;
 
-	return Arr;
+	//return Arr;
 }
 
-int** PopRowBack(int** Arr, int& m, int& n)
+void PopRowBack(int **& Arr, int& m, int& n)
 {
 	int** Buffer = new int*[--m];
 	for (int i = 0; i < m; i++)
@@ -372,9 +365,9 @@ int** PopRowBack(int** Arr, int& m, int& n)
 	delete[] Arr;
 	Arr = Buffer;
 	//m--;
-	return Arr;
+	//return Arr;
 }
-int** PopRowFront(int** Arr, int& m, int& n)
+void PopRowFront(int **& Arr, int& m, int& n)
 {
 	int** Buffer = new int*[m - 1];
 	for (int i = 0; i < m; i++)
@@ -384,9 +377,9 @@ int** PopRowFront(int** Arr, int& m, int& n)
 	delete[] Arr;
 	Arr = Buffer;
 	m--;
-	return Arr;
+	//return Arr;
 }
-int** EraseRow(int** Arr, int& m, int& n, long long int& index)
+void EraseRow(int **& Arr, int& m, int& n, long long int& index)
 {
 	int** Buffer = new int*[m];
 	std::cout << "Введите индекс: "; std::cin >> index;
@@ -406,11 +399,11 @@ int** EraseRow(int** Arr, int& m, int& n, long long int& index)
 	}
 	Arr = Buffer;
 	m--;
-	return Arr;
+	//return Arr;
 }
 
 //COLS
-int** PushColBack(int** Arr, int& m, int& n)
+void PushColBack(int** Arr, int& m, int& n)
 {
 	for (int i = 0; i < m; i++)
 	{
@@ -423,9 +416,9 @@ int** PushColBack(int** Arr, int& m, int& n)
 		Arr[i] = Buffer;
 	}
 	n++;
-	return Arr;
+	//return Arr;
 }
-int** PushColFront(int** Arr, int& m, int& n)
+void PushColFront(int** Arr, int& m, int& n)
 {
 	for (int i = 0; i < m; i++)
 	{
@@ -438,9 +431,9 @@ int** PushColFront(int** Arr, int& m, int& n)
 		Arr[i] = Buffer;
 	}
 	n++;
-	return Arr;
+	//return Arr;
 }
-int** InsertCol(int** Arr, const int m, int& n, long long int& index)
+void InsertCol(int** Arr, const int m, int& n, long long int& index)
 {
 	for (int i = 0; i < m; i++)
 	{
@@ -457,10 +450,10 @@ int** InsertCol(int** Arr, const int m, int& n, long long int& index)
 		Arr[i] = Buffer;
 	}
 	n++;
-	return Arr;
+	//return Arr;
 }
 
-int** PopColBack(int** Arr, const int m, int& n)
+void PopColBack(int** Arr, const int m, int& n)
 {
 	for (int i = 0; i < m; i++)
 	{
@@ -473,9 +466,9 @@ int** PopColBack(int** Arr, const int m, int& n)
 		Arr[i] = Buffer;
 	}
 	n--;
-	return Arr;
+	//return Arr;
 }
-int** PopColFront(int** Arr, const int m, int& n)
+void PopColFront(int** Arr, const int m, int& n)
 {
 	for (int i = 0; i < m; i++)
 	{
@@ -488,9 +481,9 @@ int** PopColFront(int** Arr, const int m, int& n)
 		Arr[i] = Buffer;
 	}
 	n--;
-	return Arr;
+	//return Arr;
 }
-int** EraseCol(int** Arr, const int m, int& n, long long int& index)
+void EraseCol(int** Arr, const int m, int& n, long long int& index)
 {
 	for (int i = 0; i < m; i++)
 	{
@@ -507,5 +500,5 @@ int** EraseCol(int** Arr, const int m, int& n, long long int& index)
 		Arr[i] = Buffer;
 	}
 	n--;
-	return Arr;
+	//return Arr;
 }
